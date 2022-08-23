@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('title');
             $table->string('slug')->index();
             $table->string('descriptions')->nullable();
+            $table->string('tree')->nullable();
             $table->timestamps();
         });
     }
