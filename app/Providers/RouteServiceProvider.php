@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -30,6 +31,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
         $this->configurePostBinds();
+        $this->configureCategoryBinds();
 
         $this->routes(function () {
             Route::middleware('api')
@@ -59,10 +61,17 @@ class RouteServiceProvider extends ServiceProvider
         Route::bind('post', function ($slug) {
             return Post::query()
                 ->where('slug', $slug)
-                ->where('is_published', 1)
                 ->published(true)
                 ->firstOrFail();
         });
+    }
 
+    protected function configureCategoryBinds()
+    {
+        Route::bind('category', function ($slug) {
+            return Category::query()
+                ->where('slug', $slug)
+                ->firstOrFail();
+        });
     }
 }
