@@ -18,7 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return new PostIndexResource(Post::query()->published(1)->paginate());
+        return new PostIndexResource(Post::query()->published(true)->latest()->paginate());
     }
 
 
