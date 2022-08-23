@@ -14,4 +14,9 @@ class Post extends Model
     {
         return $this->belongsTo(Post::class);
     }
+
+    public function scopePublished($query, $status)
+    {
+        return $query->where('is_published', $status);
+    }
 }
