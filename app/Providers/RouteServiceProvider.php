@@ -60,6 +60,7 @@ class RouteServiceProvider extends ServiceProvider
             return Post::query()
                 ->where('slug', $slug)
                 ->where('is_published', 1)
+                ->published(true)
                 ->firstOrFail();
         });
 
