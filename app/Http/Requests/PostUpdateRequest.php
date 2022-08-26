@@ -24,7 +24,11 @@ class PostUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'category_id' => ['required', 'exists:categories,id'],
+            'slug' => ['required', 'unique:posts,slug'],
+            'title' => ['required'],
+            'body' => ['filled'],
+            'is_published' => ['required', 'boolean']
         ];
     }
 }
