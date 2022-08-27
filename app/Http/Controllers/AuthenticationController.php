@@ -30,11 +30,11 @@ class AuthenticationController extends Controller
             return response()->json($this->response, 401);
         }
 
-        $user = User::whereEmail($request->only('email'))->first();
+        $user = User::with(['abilities'])->whereEmail($request->only('email'))->first();
 
         return response()->json([
             'success' => true,
-            'token' => $user->createToken($this->tokenName, $user->abilities())->plainTextToken
+            'token' => $user->createToken($this->tokenName, $user->abilities()->pluck('ability')->toArray())->plainTextToken
         ]);
     }
 
@@ -47,7 +47,7 @@ class AuthenticationController extends Controller
             $status = 201;
             $this->response = [
                 'success' => true,
-                'token' => $user->createToken($this->tokenName, $user->abilities())->plainTextToken
+                'token' => $user->createToken($this->tokenName)->plainTextToken
             ];
         } catch (\Exception $exception) {
             $status = 500;
